@@ -66,3 +66,17 @@ def test_csv(tmp_path):
     recs = from_csv(p)
     result = audit(recs, n_bootstrap=100)
     assert result.n_queries == 2
+
+
+def test_per_row_R_beats_fallbacks(tmp_path):
+    p = tmp_path / "log.jsonl"
+    _write_jsonl(p, [{"pool_size": 1000, "top_k": 10, "num_relevant": 7, "found": 1}])
+    recs = from_jsonl(p, default_R=3, R_frac=0.05)
+    assert recs[0].R == 7
+
+
+def test_default_R_beats_R_frac(tmp_path):
+    p = tmp_path / "log.jsonl"
+    _write_jsonl(p, [{"pool_size": 1000, "top_k": 10, "found": 1}])
+    recs = from_jsonl(p, default_R=3, R_frac=0.05)
+    assert recs[0].R == 3

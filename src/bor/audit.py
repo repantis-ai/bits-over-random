@@ -142,6 +142,17 @@ def _verdict(bor: float, p_obs: float, p_rand: float, frac_zone: float) -> str:
             f"mostly base rate; a blind draw scores {p_rand:.0%} here. "
             f"Reduce K or the success metric is decorative."
         )
+    if math.isnan(bor):
+        return (
+            f"UNDEFINED: observed {p_obs:.0%} against a random baseline "
+            f"of {p_rand:.0%}. The ratio carries no information either way."
+        )
+    if math.isinf(bor) and bor > 0:
+        return (
+            f"SELECTIVE: observed {p_obs:.0%} where the random baseline "
+            f"is zero. Any success here is above chance and the bits are "
+            f"unbounded."
+        )
     if bor <= 0.0:
         return (
             f"AT/BELOW RANDOM: observed {p_obs:.0%} against a blind-draw "

@@ -42,3 +42,17 @@ def test_empty_raises():
         pass
     else:
         raise AssertionError("audit([]) should raise ValueError")
+
+
+def test_nan_verdict_undefined():
+    recs = [QueryRecord(N=50, R=0, K=10, hit=False) for _ in range(20)]
+    result = audit(recs, n_bootstrap=50)
+    assert math.isnan(result.bor)
+    assert "UNDEFINED" in result.verdict
+
+
+def test_infinite_bor_zero_baseline():
+    recs = [QueryRecord(N=50, R=0, K=10, hit=True) for _ in range(20)]
+    result = audit(recs, n_bootstrap=50)
+    assert math.isinf(result.bor) and result.bor > 0
+    assert "unbounded" in result.verdict
