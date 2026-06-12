@@ -1,5 +1,7 @@
 # Bits-over-Random
 
+For a full line-by-line explanation of the math, code, examples, tests, and audit output, see [WALKTHROUGH.md](WALKTHROUGH.md).
+
 Small Python utilities for chance-corrected retrieval evaluation.
 
 Based on the ICLR 2026 Blog Poster Track paper:
