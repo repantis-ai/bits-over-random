@@ -19,6 +19,20 @@ Bits-over-Random compares observed success against the success expected from a b
 
 Each bit is one doubling over random chance.
 
+## What BoR measures
+
+For a corpus of N items with R relevant items, and a retrieval depth K, random selection has its own success rate.
+
+BoR asks:
+
+> How many bits better than random was the observed retrieval result?
+
+- BoR = log2(P_observed / P_random)
+- BoR = 0: no better than random
+- BoR = 1: 2x better than random
+- BoR = 3: 8x better than random
+- BoR < 0: worse than random
+
 ## Install locally
 
 Before using, install:
