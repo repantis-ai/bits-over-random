@@ -1,3 +1,4 @@
+LICENSE
 README.md
 pyproject.toml
 src/bits_over_random.egg-info/PKG-INFO
@@ -7,6 +8,10 @@ src/bits_over_random.egg-info/entry_points.txt
 src/bits_over_random.egg-info/requires.txt
 src/bits_over_random.egg-info/top_level.txt
 src/bor/__init__.py
+src/bor/audit.py
 src/bor/cli.py
+src/bor/logs.py
 src/bor/metrics.py
+tests/test_audit.py
+tests/test_logs.py
 tests/test_metrics.py

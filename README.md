@@ -73,11 +73,92 @@ warning: random baseline is already near 1.0
 warning: lambda is in the collapse zone
 ```
 
+## Audit a retrieval log
+
+The calculator above answers a single aggregate question. The auditor
+answers the production one: given a log of many retrieval events, each
+with its own pool size, depth, and outcome, is the system actually
+selective?
+
+It reads JSONL or CSV logs, runs locally, and nothing leaves the
+machine.
+
+```bash
+bor audit my_retrieval_log.jsonl
+```
+
+Example output:
+
+```bash
+BoR Audit
+==========================================================
+queries analyzed          : 800
+observed success (P_obs)  : 0.8113
+random baseline (P_rand)  : 0.3351
+Bits-over-Random          : +1.2758  [95% CI +1.2297, +1.3199]
+BoR ceiling (mean)        : 1.6481
+lambda (mean)             : 0.4015
+collapse-zone queries     : 0%
+----------------------------------------------------------
+SELECTIVE: 1.28 bits over random, about 2.4x better than a blind draw at this depth.
+```
+
+### Log format
+
+Each row needs a pool size, a retrieval depth, and a success signal.
+Common field names are recognized automatically:
+
+| Field | Recognized names                                              |
+| ----- | ------------------------------------------------------------- |
+| N     | `N`, `n`, `pool_size`, `corpus_size`, `num_candidates`, `total` |
+| K     | `K`, `k`, `depth`, `top_k`, `num_shown`, `num_retrieved`        |
+| hit   | `hit`, `success`, `found`, `solved`, `task_success`             |
+| R     | `R`, `r`, `relevant`, `num_relevant`, `relevant_count`          |
+
+A typical row:
+
+```json
+{"query_id": "req-00041", "pool_size": 600, "top_k": 40, "num_relevant": 6, "found": true}
+```
+
+If your log uses other names, pass an explicit mapping:
+
+```bash
+bor audit my_log.jsonl --map N=corpus,K=shown,hit=ok,R=rel
+```
+
+### When the log has no relevant count
+
+Most logs keep scores and outcomes but drop R. Two honest options:
+
+```bash
+bor audit my_log.jsonl --default-R 6     # same R for every row
+bor audit my_log.jsonl --R-frac 0.05     # estimate R as 5% of N per row
+```
+
+Both are estimates and the output says so. Treat the resulting BoR as
+an estimate too.
+
+### From Python
+
+```python
+from bor import audit, from_jsonl
+
+records = from_jsonl("my_retrieval_log.jsonl", R_frac=0.05)
+result = audit(records)
+print(result.summary())
+```
+
+`audit` also accepts `QueryRecord` objects directly if your data is
+already in memory, and each record takes an optional `m` for success
+defined as at least m relevant items in the top K.
+
 ## Examples
 
 ```bash
 python examples/case2_lottery.py
 python examples/tool_selection_58.py
+python examples/audit_logs_demo.py   # writes a synthetic log, audits it
 ```
 
 ## Intuition
