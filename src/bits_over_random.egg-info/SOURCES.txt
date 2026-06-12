@@ -1,0 +1,12 @@
+README.md
+pyproject.toml
+src/bits_over_random.egg-info/PKG-INFO
+src/bits_over_random.egg-info/SOURCES.txt
+src/bits_over_random.egg-info/dependency_links.txt
+src/bits_over_random.egg-info/entry_points.txt
+src/bits_over_random.egg-info/requires.txt
+src/bits_over_random.egg-info/top_level.txt
+src/bor/__init__.py
+src/bor/cli.py
+src/bor/metrics.py
+tests/test_metrics.py
