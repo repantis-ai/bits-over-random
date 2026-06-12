@@ -2,7 +2,20 @@
 
 Small Python utilities for chance-corrected retrieval evaluation.
 
-Raw metrics such as Success@K and Recall@K can look strong when random selection would also succeed. Bits-over-Random compares observed success against the success expected from a blind draw over the same corpus.
+Based on the ICLR 2026 Blog Poster Track paper:
+
+**The 99% Success Paradox: When Near-Perfect Retrieval Equals Random Selection**
+
+![Poster](poster.png)
+
+[Blog](https://iclr-blogposts.github.io/2026/blog/2026/bits-over-random/) |
+[Poster](https://iclr.cc/virtual/2026/poster/10012083)
+
+## Why this exists
+
+Raw retrieval metrics such as Success@K and Recall@K can look strong when random selection would also succeed.
+
+Bits-over-Random compares observed success against the success expected from a blind draw over the same corpus.
 
 Each bit is one doubling over random chance.
 
