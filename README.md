@@ -59,18 +59,18 @@ warning: random baseline is already near 1.0
 warning: lambda is in the collapse zone
 ```
 
-## Why this exists
-
-Retrieval systems are often evaluated by whether at least one relevant item appears in the top K. That is useful, but it does not ask how hard the task was.
-
-If relevant items are common, or K is large, a blind draw can also succeed. BoR asks how far above that random baseline the system actually is.
-
 ## Examples
 
 ```bash
 python examples/case2_lottery.py
 python examples/tool_selection_58.py
 ```
+
+## Intuition
+
+Retrieval systems are often evaluated by whether at least one relevant item appears in the top K. That is useful, but it does not ask how hard the task was.
+
+If relevant items are common, or K is large, a blind draw can also succeed. BoR asks how far above that random baseline the system actually is.
 
 ## Citation
 
